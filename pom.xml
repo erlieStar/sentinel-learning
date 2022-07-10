@@ -9,6 +9,7 @@
     <module>api</module>
     <module>consumer</module>
     <module>producer</module>
+    <module>quick-start</module>
   </modules>
 
   <groupId>com.javashitang</groupId>
