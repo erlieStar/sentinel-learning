@@ -1,6 +1,15 @@
 package com.javashitang;
 
+import com.alibaba.csp.sentinel.Entry;
+import com.alibaba.csp.sentinel.SphU;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
+import com.alibaba.csp.sentinel.slots.block.RuleConstant;
+import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
+import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
+
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author lilimin
@@ -13,6 +22,11 @@ public class Main {
         initFlowRules();
 
         while (true) {
+            try {
+                TimeUnit.MILLISECONDS.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             // 1.5.0 版本开始可以直接利用 try-with-resources 特性
             try (Entry entry = SphU.entry("HelloWorld")) {
                 // 被保护的逻辑
@@ -30,7 +44,7 @@ public class Main {
         rule.setResource("HelloWorld");
         rule.setGrade(RuleConstant.FLOW_GRADE_QPS);
         // Set limit QPS to 20.
-        rule.setCount(20);
+        rule.setCount(5);
         rules.add(rule);
         FlowRuleManager.loadRules(rules);
     }
